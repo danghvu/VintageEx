@@ -73,6 +73,9 @@ class SearchImpl(object):
                                                              self.flags)
         else:
             next_match = self.view.find(self.cmd, sel.end(), self.flags)
+        if not next_match:
+            sublime.status_message("VingateEx: search hit BOTTOM, continuing at TOP")
+            next_match = self.view.find(self.cmd, 0, sel.end())
         if next_match:
             self.view.sel().clear()
             if not self.remember:

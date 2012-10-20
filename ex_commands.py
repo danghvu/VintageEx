@@ -789,3 +789,37 @@ class ExYank(sublime_plugin.TextCommand):
         g_registers[register] = text
         if register == '"':
             g_registers['0'] = text
+
+#__________________________________________________
+class TabControlCommand(sublime_plugin.TextCommand):
+    def run(self, edit, command):
+        window = sublime.active_window()
+        max_index = len(window.views())
+        (group, index) = window.get_view_index(self.view)
+        print command
+        if (command == "open"):
+            window.run_command("sublime_files",{"command":"navigate"})
+        elif command == "next":
+            window.run_command("select_by_index",{"index":(index+1) % max_index})
+        elif command == "prev":
+            window.run_command("select_by_index",{"index":(index+max_index-1)%max_index})
+        elif command == "close":
+            window.run_command("close")
+        else:
+            raise RuntimeError("Unknown Cmd")
+
+class ExTabOpen(sublime_plugin.TextCommand):
+    def run(self, edit, line_range, register=None, count=None):
+        window = sublime.active_window()
+        window.run_command("tab_control",{"command":"open"})    
+
+class ExTabNext(sublime_plugin.TextCommand):
+    def run(self, edit, line_range, register=None, count=None):
+        window = sublime.active_window()
+        window.run_command("tab_control",{"command":"next"})    
+
+class ExTabPrev(sublime_plugin.TextCommand):
+    def run(self, edit, line_range, register=None, count=None):
+        window = sublime.active_window()
+        window.run_command("tab_control",{"command":"prev"})    
+#__________________________________________________
