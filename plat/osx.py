@@ -4,7 +4,15 @@ import subprocess
 
 def run_and_wait(view, cmd):
     term = view.settings().get('vintageex_osx_terminal')
-    term = term or os.path.expandvars("$COLORTERM") or os.path.expandvars("$TERM")
+    color_term = os.path.expandvars("$COLORTERM")
+    norm_term = os.path.expandvars("$TERM")
+    if color_term == "$COLORTERM": color_term = None
+    if norm_term == "$TERM": norm_term = None
+    
+    term = term or color_term or norm_term
+    if term is None: 
+        raise RuntimeError("No xterm found!")
+
     subprocess.Popen([
             term, '-e',
             "bash -c \"%s; read -p 'Press RETURN to exit.'\"" % cmd]).wait()
