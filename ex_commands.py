@@ -790,37 +790,3 @@ class ExYank(sublime_plugin.TextCommand):
         if register == '"':
             g_registers['0'] = text
 
-
-#__________________________________________________
-class TabControlCommand(sublime_plugin.TextCommand):
-    def run(self, edit, command, file_name=None):
-        window = self.view.window()
-        max_index = len(window.views())
-        (group, index) = window.get_view_index(self.view)
-        if (command == "open"):
-            if file_name is None:  # TODO: Make our own file navigator ?
-                window.run_command("sublime_files", {"command": "navigate"}, )
-            else:
-                window.open_file(os.path.join(os.getcwdu(), file_name))
-        elif command == "next":
-            window.run_command("select_by_index", {"index": (index + 1) % max_index}, )
-        elif command == "prev":
-            window.run_command("select_by_index", {"index": (index + max_index - 1) % max_index, })
-        else:
-            raise RuntimeError("Unknown TabControl Command")
-
-
-class ExTabOpen(sublime_plugin.TextCommand):
-    def run(self, edit, line_range=None, file_name=None):
-        self.view.window().run_command("tab_control", {"command": "open", "file_name": file_name}, )
-
-
-class ExTabNext(sublime_plugin.TextCommand):
-    def run(self, edit, line_range=None):
-        self.view.window().run_command("tab_control", {"command": "next"}, )
-
-
-class ExTabPrev(sublime_plugin.TextCommand):
-    def run(self, edit, line_range=None):
-        self.view.window().run_command("tab_control", {"command": "prev"}, )
-#__________________________________________________
