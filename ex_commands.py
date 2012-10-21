@@ -789,4 +789,3 @@ class ExYank(sublime_plugin.TextCommand):
         g_registers[register] = text
         if register == '"':
             g_registers['0'] = text
-
