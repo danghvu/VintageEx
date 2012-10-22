@@ -299,16 +299,7 @@ EX_COMMANDS = {
                         ),
                         # FIXME: :!! is a different command to :!
                         error_on=(ex_error.ERR_NO_BANG_ALLOWED,),
-                        ),
-# tab support
-    ('tabedit', 'tabe'): ex_cmd_data(
-                                    command='ex_tab_open',
-                                    invocations=(
-                                        re.compile(r'^(?P<file_name>.+)$'),
-                                    ), error_on=(),
-                                    ),
-    ('tabnext', 'tabn'): ex_cmd_data(command='ex_tab_next', invocations=(), error_on=()),
-    ('tabprev', 'tabp'): ex_cmd_data(command='ex_tab_prev', invocations=(), error_on=())
+                        )
 }
 
 
